@@ -25,7 +25,28 @@ def main(fileName, convertMode):
       jsonArray.append(jsonObject)
     jsonFileName = fileName.split('.')[0] + '.json'
     jsonFile = open(jsonFileName, 'w')
-    json.dump(jsonArray, jsonFile, ensure_ascii=False, indent=4)
+    json.dump(jsonArray, jsonFile, ensure_ascii=False, indent=2)
+  elif convertMode == 'jsonToCsv':
+    jsonData = json.load(file);
+    csvFileName = fileName.split('.')[0] + '.csv'
+    csvFile = open(csvFileName, 'a')
+    for x in range(len(jsonData)):
+      strToAppend = '';
+      if x == 0:
+        for key in jsonData[x]:
+          if len(strToAppend) == 0:
+            strToAppend += key
+          else:
+            strToAppend += ',' + key
+        strToAppend += '\n'
+        csvFile.write(strToAppend)
+      for key in jsonData[x]:
+        if len(strToAppend) == 0:
+          strToAppend += jsonData[x][key]
+        else:
+          strToAppend += ',' + jsonData[x][key]
+      strToAppend += '\n'
+      csvFile.write(strToAppend)
   print('Job done')
 
 if sys.argv[1] and sys.argv[2]:
